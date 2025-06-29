@@ -2,6 +2,7 @@ package com.example.day4_project.controller;
 
 import com.example.day4_project.dto.LoginRequestDto;
 import com.example.day4_project.dto.LoginResponseDto;
+import com.example.day4_project.global.response.ApiResponse;
 import com.example.day4_project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,8 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<ApiResponse<LoginResponseDto>> login(@RequestBody LoginRequestDto loginRequestDto) {
         LoginResponseDto responseDto=userService.login(loginRequestDto);
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(new ApiResponse<>(responseDto));
     }
 }
