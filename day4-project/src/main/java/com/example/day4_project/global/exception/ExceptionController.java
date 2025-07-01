@@ -6,14 +6,17 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@AllArgsConstructor
+@RestControllerAdvice
 @Slf4j
 public class ExceptionController {
     //AppException 전용 처리
     @ExceptionHandler(AppException.class)
     public ResponseEntity<ErrorResponse> handleAppException(AppException e, HttpServletRequest request) {
-        log.error("[Application] { }", e.getErrorCode().getMessage());
+        log.error("[AppException] code: {}, message: {}",
+                e.getErrorCode().getCode(),
+                e.getErrorCode().getMessage());
         ErrorResponse errorResponse=ErrorResponse.of(e.getErrorCode(),request);
         return ResponseEntity
                 .status(e.getErrorCode().getStatus())

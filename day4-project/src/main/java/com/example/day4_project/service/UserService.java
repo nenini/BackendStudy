@@ -5,6 +5,8 @@ import com.example.day4_project.dto.LoginRequestDto;
 import com.example.day4_project.dto.LoginResponseDto;
 import com.example.day4_project.dto.UserRequestDto;
 import com.example.day4_project.dto.UserResponseDto;
+import com.example.day4_project.global.exception.AppException;
+import com.example.day4_project.global.exception.ErrorCode;
 import com.example.day4_project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,7 +39,7 @@ public class UserService {
     }
     public UserResponseDto findById(Long id) {
         User user= userRepository.findById(id)
-                .orElseThrow(()->new RuntimeException("User Not Found"));
+                .orElseThrow(()->new AppException(ErrorCode.USER_NOT_FOUND));
         return new UserResponseDto(user.getId(),user.getName(),user.getEmail());
     }
     public void delete(Long id) {
@@ -47,7 +49,7 @@ public class UserService {
         return userRepository.findByEmail(loginRequestDto.getEmail())
                 .filter(user->user.getPassword().equals(loginRequestDto.getPassword()))
                 .map(user->new LoginResponseDto(user.getId(), user.getName(), user.getEmail()))
-                .orElseThrow(()->new IllegalArgumentException("이메일 또는 비밀번호가 일치하지 않습니다."));
+                .orElseThrow(()->new AppException(ErrorCode.INVALID_CREDENTIALS));
     }
 
 }

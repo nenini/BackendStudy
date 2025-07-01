@@ -9,4 +9,7 @@ public class DataResponse<T> extends BaseResponse{
     public T getData() {
         return data;
     }
+    public static <T> DataResponse<T> of(T data) {
+        return new DataResponse<>(data);
+    }
 }
