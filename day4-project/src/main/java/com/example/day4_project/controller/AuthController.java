@@ -2,7 +2,6 @@ package com.example.day4_project.controller;
 
 import com.example.day4_project.dto.LoginRequestDto;
 import com.example.day4_project.dto.LoginResponseDto;
-import com.example.day4_project.global.response.ApiResponse;
 import com.example.day4_project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

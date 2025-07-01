@@ -2,7 +2,6 @@ package com.example.day4_project.controller;
 
 import com.example.day4_project.dto.UserRequestDto;
 import com.example.day4_project.dto.UserResponseDto;
-import com.example.day4_project.global.response.ApiResponse;
 import com.example.day4_project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

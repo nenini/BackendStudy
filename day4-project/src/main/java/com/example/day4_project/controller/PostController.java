@@ -2,7 +2,6 @@ package com.example.day4_project.controller;
 
 import com.example.day4_project.dto.PostRequestDto;
 import com.example.day4_project.dto.PostResponseDto;
-import com.example.day4_project.global.response.ApiResponse;
 import com.example.day4_project.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

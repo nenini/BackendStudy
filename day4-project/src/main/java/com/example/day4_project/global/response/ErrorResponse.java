@@ -1,34 +1,30 @@
-package com.example.day4_project.global.exception;
+package com.example.day4_project.global.response;
 
+import com.example.day4_project.global.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.apache.catalina.connector.Response;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Getter
-@AllArgsConstructor
-@Builder
-public class ErrorResponse {
-    private final String status;
-    private final String timestamp;
+public class ErrorResponse extends BaseResponse {
     private final String code;
     private final String message;
     private final String method;
     private final String requestURI;
+    private ErrorResponse(ErrorCode errorCode, HttpServletRequest request) {
+        super("ERROR"); // BaseResponse 생성자 호출
+        this.code = errorCode.getCode();
+        this.message = errorCode.getMessage();
+        this.method = request.getMethod();
+        this.requestURI = request.getRequestURI();
+    }
 
     public static ErrorResponse of(ErrorCode errorCode, HttpServletRequest request) {
-        return ErrorResponse.builder()
-                .status(errorCode.getStatus().getReasonPhrase())
-                .timestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                .code(errorCode.getCode())
-                .message(errorCode.getMessage())
-                .method(request.getMethod())
-                .requestURI(request.getRequestURI())
-                .build();
+        return new ErrorResponse(errorCode, request);
     }
 }
