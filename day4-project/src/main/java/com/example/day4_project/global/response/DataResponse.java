@@ -12,4 +12,8 @@ public class DataResponse<T> extends BaseResponse{
     public static <T> DataResponse<T> of(T data) {
         return new DataResponse<>(data);
     }
+    //delete같은 data빈 응답
+    public static DataResponse<Void> empty() {
+        return new DataResponse<>(null);
+    }
 }

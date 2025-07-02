@@ -4,6 +4,8 @@ import com.example.day4_project.dto.PostRequestDto;
 import com.example.day4_project.dto.PostResponseDto;
 import com.example.day4_project.global.response.DataResponse;
 import com.example.day4_project.service.PostService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,10 +44,13 @@ public class PostController {
         return ResponseEntity.ok(DataResponse.of(updatedPost));
     }
     // 게시글 삭제
-    @DeleteMapping("/{id}")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "삭제 성공"),
+            @ApiResponse(responseCode = "404", description = "게시글 없음")
+    })    @DeleteMapping("/{id}")
     public ResponseEntity<DataResponse<Void>> deletePost(@PathVariable Long id) {
         postService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(DataResponse.empty());
     }
     // 특정 유저의 게시글 조회
     @GetMapping("/user/{userId}")
