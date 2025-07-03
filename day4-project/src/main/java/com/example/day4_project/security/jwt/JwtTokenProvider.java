@@ -1,14 +1,14 @@
-package com.example.day4_project.jwt;
+package com.example.day4_project.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 //JWT 토큰 생성, 검증, 정보 추출 등을 담당
@@ -80,5 +80,13 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token) // 4. 토큰을 파싱해서 Claims(JWT 정보) 꺼냄
                 .getBody();            // 5. Payload 데이터(body)만 추출
 
+    }
+    // 요청 헤더에서 JWT 토큰을 추출하는 메서드
+    public String resolveToken(HttpServletRequest request){
+        String bearerToken = request.getHeader("Authorization");
+        if(bearerToken != null && bearerToken.startsWith("Bearer ")){
+            return bearerToken.substring(7);// "Bearer " 이후의 토큰만 추출
+        }
+        return null;
     }
 }

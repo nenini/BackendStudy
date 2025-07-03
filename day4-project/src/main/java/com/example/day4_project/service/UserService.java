@@ -45,11 +45,11 @@ public class UserService {
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
-    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
-        return userRepository.findByEmail(loginRequestDto.getEmail())
-                .filter(user->user.getPassword().equals(loginRequestDto.getPassword()))
-                .map(user->new LoginResponseDto(user.getId(), user.getName(), user.getEmail()))
-                .orElseThrow(()->new AppException(ErrorCode.INVALID_CREDENTIALS));
-    }
+//    public LoginResponseDto login(LoginRequestDto loginRequestDto) {
+//        return userRepository.findByEmail(loginRequestDto.getEmail())
+//                .filter(user->user.getPassword().equals(loginRequestDto.getPassword()))
+//                .map(user->new LoginResponseDto(user.getId(), user.getName(), user.getEmail()))
+//                .orElseThrow(()->new AppException(ErrorCode.INVALID_CREDENTIALS));
+//    }
 
 }
