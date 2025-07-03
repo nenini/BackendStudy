@@ -9,9 +9,11 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     POST_NOT_FOUND(HttpStatus.NOT_FOUND,"POST-001","게시글을 찾을 수 없습니다."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND,"USER-001","사용자를 찾을 수 없습니다."),
-    INVALID_CREDENTIALS(HttpStatus.BAD_REQUEST, "이메일 또는 비밀번호가 일치하지 않습니다.", "USER-002"),
+    INVALID_CREDENTIALS(HttpStatus.BAD_REQUEST, "USER-002","이메일 또는 비밀번호가 일치하지 않습니다."),
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST,"COMMON-001","잘못된 요청입니다."),
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"COMMON-999","서버 오류입니다.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"COMMON-999","서버 오류입니다.")
+    ,INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH-001", "유효하지 않은 토큰입니다.")
+    ,UNAUTHORIZED_REQUEST(HttpStatus.UNAUTHORIZED, "COMMON-004", "권한이 없습니다.");
     private final HttpStatus status;
     private final String code;
     private final String message;

@@ -9,6 +9,7 @@ import com.example.day4_project.global.exception.AppException;
 import com.example.day4_project.global.exception.ErrorCode;
 import com.example.day4_project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +24,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder; // 주입받기
     public UserResponseDto createUser(UserRequestDto userRequestDto) {
         User user = new User();
         user.setName(userRequestDto.getName());
-        user.setPassword(userRequestDto.getPassword());
+        String encodedPassword = passwordEncoder.encode(userRequestDto.getPassword());
+        user.setPassword(encodedPassword);
+//        user.setPassword(userRequestDto.getPassword());
         user.setEmail(userRequestDto.getEmail());
         User savedUser = userRepository.save(user);
         return new UserResponseDto(savedUser.getId(), savedUser.getName(), savedUser.getEmail());

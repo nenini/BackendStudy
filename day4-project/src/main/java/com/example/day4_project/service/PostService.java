@@ -22,9 +22,9 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     //게시글 생성
-    public PostResponseDto create(PostRequestDto postRequestDto) {
-        User user = userRepository.findById(postRequestDto.getUserId())
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+    public PostResponseDto create(PostRequestDto postRequestDto,User user) {
+//        User user = userRepository.findById(postRequestDto.getUserId())
+//                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         Post post = new Post();
         post.setTitle(postRequestDto.getTitle());
         post.setContent(postRequestDto.getContent());
@@ -43,7 +43,13 @@ public class PostService {
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
         return new PostResponseDto(post.getId(), post.getTitle(), post.getContent(),post.getUser().getName(),post.getCreatedAt(),post.getUpdatedAt());
     }
-    public void delete(Long id) {
+    public void delete(Long id,User user) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
+        // 현재 로그인한 사용자가 게시글 작성자인지 확인
+        if(!post.getUser().getId().equals(user.getId())) {
+            throw new AppException(ErrorCode.UNAUTHORIZED_REQUEST);
+        }
         postRepository.deleteById(id);
     }
     public List<PostResponseDto> findByUserId(Long userId) {
@@ -54,9 +60,12 @@ public class PostService {
                 .map(post -> new PostResponseDto(post.getId(),post.getTitle(),post.getContent(),user.getName(), post.getCreatedAt(),post.getUpdatedAt()))
                 .collect(Collectors.toList());
     }
-    public PostResponseDto update(Long id, PostRequestDto postRequestDto) {
+    public PostResponseDto update(Long id, PostRequestDto postRequestDto,User user) {
         Post post =postRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
+        if(!post.getUser().getId().equals(user.getId())) {
+            throw new AppException(ErrorCode.UNAUTHORIZED_REQUEST);
+        }
         post.setTitle(postRequestDto.getTitle());
         post.setContent(postRequestDto.getContent());
         Post save = postRepository.save(post);

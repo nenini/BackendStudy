@@ -21,8 +21,8 @@ public class JwtTokenProvider {
     public JwtTokenProvider(
             //application.yml에서 값 가져옴
         @Value("${jwt.secret}") String secretKey,
-        @Value("${jwt.access-token-expiration") long accessTokenExpiration,
-        @Value("${refresh-token-expiration}") long refreshTokenExpiration
+        @Value("${jwt.access-token-expiration}") long accessTokenExpiration,
+        @Value("${jwt.refresh-token-expiration}") long refreshTokenExpiration
     ){
         //비밀 키(secretKey)를 바이트 배열로 변환해서 HMAC SHA 알고리즘에 맞는 서명 키 객체를 생성하는 부분
         this.key= Keys.hmacShaKeyFor(secretKey.getBytes());
